@@ -23,9 +23,9 @@ app.get('/login', function(req, res){
 
     res.render('login') 
 }) 
-app.get('/registeration', function(req, res){ 
+app.get('/registration', function(req, res){ 
 
-    res.render('registeration') 
+    res.render('registration') 
 })
 app.get('/errorregister', function(req, res){ 
 
