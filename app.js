@@ -1,7 +1,6 @@
 const express = require('express') 
 const path = require('path') 
 const fs = require('fs')
-const popup = require('node-popup')
 const app = express() 
 
 
@@ -44,13 +43,24 @@ app.post('/register', function(request, res){
     for( i in data){
         if (user.username == data[i].username){
             res.render('errorregister')
-            break;
+            return;
         }
     }
     data.push(user)
     fs.writeFileSync('users.json', JSON.stringify(data))
     res.render('confirmregister')
     
+})
+app.post('/login',function(request, res){
+    var user = {username: request.body.username, password: request.body.password}
+    var data = JSON.parse(fs.readFileSync("users.json"))
+    for( i in data){
+        if (user.username == data[i].username && user.password == data[i].password){
+            res.render('home')
+            return;
+        }
+    }
+    res.render('login')
 })
 
 app.get('/dune', function(req, res){ 
