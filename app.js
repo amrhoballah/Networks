@@ -1,12 +1,11 @@
 const express = require('express') 
 const path = require('path') 
 const fs = require('fs')
+const { findSourceMap } = require('module')
 const app = express() 
 
-
 app.use(express.urlencoded());
-
-
+app.use(express.static('public'))
 app.use(express.json());
 
   
@@ -16,53 +15,11 @@ app.set('view engine', 'ejs')
 
 app.get('/', function(req, res){ 
 
-    res.render('login') 
-}) 
-app.get('/login', function(req, res){ 
-
-    res.render('login') 
 }) 
 app.get('/registration', function(req, res){ 
 
-    res.render('registration') 
+    res.render('registration', {message: ""}) 
 })
-app.get('/errorregister', function(req, res){ 
-
-    res.render('errorregister') 
-})
-app.get('/confirmregister', function(req, res){ 
-
-    res.render('confirmregister') 
-})
-
-app.post('/register', function(request, res){
-    console.log(request.body.username)
-    console.log(request.body.password)
-    var user = {username: request.body.username, password: request.body.password}
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
-        if (user.username == data[i].username){
-            res.render('errorregister')
-            return;
-        }
-    }
-    data.push(user)
-    fs.writeFileSync('users.json', JSON.stringify(data))
-    res.render('confirmregister')
-    
-})
-app.post('/login',function(request, res){
-    var user = {username: request.body.username, password: request.body.password}
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
-        if (user.username == data[i].username && user.password == data[i].password){
-            res.render('home')
-            return;
-        }
-    }
-    res.render('login')
-})
-
 app.get('/dune', function(req, res){ 
 
     res.render('dune') 
@@ -100,7 +57,6 @@ app.get('/poetry', function(req, res){
     res.render('poetry') 
 }) 
 app.get('/readlist', function(req, res){ 
-
     res.render('readlist') 
 }) 
 app.get('/searchresults', function(req, res){ 
@@ -110,9 +66,28 @@ app.get('/searchresults', function(req, res){
 app.get('/sun', function(req, res){ 
 
     res.render('sun') 
-}) 
+})
+
+app.post('/register', function(request, res){
+    var user = {username: request.body.username, password: request.body.password, readinglist: []}
+    var data = JSON.parse(fs.readFileSync("users.json"))
+    for( i in data){
+        if (user.username == data[i].username){
+            res.render('registration',{message : "This username is already taken"})
+            return;
+        }
+        if (user.username == "" || user.password == ""){
+            res.render('registration',{message : "Please enter a username and a password"})
+            return;
+        }
+    }
+    data.push(user)
+    fs.writeFileSync('users.json', JSON.stringify(data))
+    res.render('login',{message : "You have registered successfully"})
+    
+})
 
 app.listen(8080, function(error){ 
     if(error) throw error 
-    console.log("Local Host 8080 is waiting for you") 
+    console.log("localhost:8080 is waiting for you") 
 }) 
