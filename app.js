@@ -87,4 +87,4 @@ app.post('/register', function(request, res){
     
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(8080, () => console.log('app listening on port 8080!'))
