@@ -59,10 +59,17 @@ app.get('/poetry', function(req, res){
     res.render('poetry') 
 }) 
 app.get('/readlist', function(req, res){ 
+    var data = JSON.parse(fs.readFileSync("users.json"))
+    var list
+    for( i in data){
+        if (currentUser == data[i].username)
+            list = data[i].readinglist
+    }
+    res.render('readlist',{data: list }) 
 }) 
 app.get('/searchresults', function(req, res){ 
 
-    res.render('searchresults') 
+    res.render('searchresults',{data:[]}) 
 }) 
 app.get('/sun', function(req, res){ 
 
@@ -99,7 +106,34 @@ app.post('/login',function(request, res){
     }
     res.render('login',{message : "The username or password are incorrect"})
 })
+app.post('/addtoreadinglist',function(request, res){
+    var data = JSON.parse(fs.readFileSync("users.json"))
+    for( i in data){
+        if (currentUser == data[i].username){
+            for(j in data[i].readinglist)
+                if(data[i].readinglist[j].path == request.body.path){
+                    res.render(request.body.path)
+                    return
+                }
+            data[i].readinglist.push({path:request.body.path,name: request.body.name})
+        }
+    }
+    fs.writeFileSync('users.json', JSON.stringify(data))
+    res.render(request.body.path)
+})
+app.post('/search',function(req, res){
+    var x = (req.body.Search).toLocaleLowerCase()
+    var list =[]
+    var data = [{"path":"flies","name":"Lord of the Flies"},{"path":"grapes","name":"The Grapes of Wrath"},{"path":"leaves","name":"Leaves of Grass"},{"path":"sun","name":"The Sun and Her Flowers"},{"path":"dune","name":"Dune"},{"path":"mockingbird","name":"To Kill a Mockingbird"}]
+    for(i in data){
+        if(data[i].name.toLocaleLowerCase().includes(x)){
+            list.push(data[i])
+        }
+    }
+    res.render('searchresults',{data: list})
+})
 
+<<<<<<< Updated upstream
 const port = process.env.PORT || 5001;
 
 app.listen(port, () => console.log(`Server is listening on port ${port}...`));
