@@ -100,7 +100,7 @@ app.post('/login',function(request, res){
     res.render('login',{message : "The username or password are incorrect"})
 })
 
-app.listen(8080, function(error){ 
-    if(error) throw error 
-    console.log("localhost:8080 is waiting for you") 
-}) 
+const port = process.env.PORT || 5001;
+
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+

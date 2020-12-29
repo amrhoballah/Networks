@@ -2,11 +2,13 @@
   "name": "Networks",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "keywords": [],
+  "keywords": [
+     "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -14,5 +16,8 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "module": "^1.2.5"
+  },
+  "engine": {
+    "node": "14.15.0"
   }
 }
