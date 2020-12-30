@@ -3,14 +3,15 @@ const path = require('path')
 const fs = require('fs')
 const { findSourceMap } = require('module')
 const session = require('express-session')
-const { request } = require('express')
 const app = express() 
 var currentUser
 
 app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
-
+app.use(session({
+    secret : "shhhhh"
+}))
   
 app.set('views', path.join(__dirname, 'views')) 
 app.set('view engine', 'ejs') 
