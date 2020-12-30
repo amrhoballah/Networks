@@ -2,10 +2,9 @@ const express = require('express')
 const path = require('path') 
 const fs = require('fs')
 const { findSourceMap } = require('module')
-const session = require('express-session')
-const app = express()
-app.use(session({secret: 'ssshhhhh'}));
-var currentUser;
+const app = express() 
+var currentUser
+
 app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
@@ -100,8 +99,7 @@ app.post('/login',function(request, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
         if (user.username == data[i].username && user.password == data[i].password){
-            currentUser = req.session
-            currentUser.username = user.username
+            currentUser = user.username
             res.render('home')
             return
         }
@@ -111,7 +109,7 @@ app.post('/login',function(request, res){
 app.post('/addtoreadinglist',function(request, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
-        if (currentUser.session = request.session && currentUser.username == data[i].username){
+        if (currentUser == data[i].username){
             for(j in data[i].readinglist)
                 if(data[i].readinglist[j].path == request.body.path){
                     res.render(request.body.path)
