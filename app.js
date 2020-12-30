@@ -80,7 +80,7 @@ app.get('/sun', function(req, res){
 })
 
 app.post('/register', function(req, res){
-    var user = {username: request.body.username, password: request.body.password, readinglist: []}
+    var user = {username: req.body.username, password: req.body.password, readinglist: []}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
         if (user.username == data[i].username){
@@ -118,11 +118,11 @@ app.post('/addtoreadinglist',function(req, res){
                     res.render(req.body.path)
                     return
                 }
-            data[i].readinglist.push({path:request.body.path,name: request.body.name})
+            data[i].readinglist.push({path:req.body.path,name: req.body.name})
         }
     }
     fs.writeFileSync('users.json', JSON.stringify(data))
-    res.render(request.body.path)
+    res.render(req.body.path)
 })
 app.post('/search',function(req, res){
     var x = (req.body.Search).toLocaleLowerCase()
@@ -137,7 +137,7 @@ app.post('/search',function(req, res){
 })
 
 
-const port = process.env.PORT || 5001;
+//const port = process.env.PORT || 5001;
 
-app.listen(port, () => console.log(`Server is listening on port ${port}...`));
+app.listen(8080, () => console.log(`Server is listening on port ${8080}...`));
 
