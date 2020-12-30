@@ -19,7 +19,11 @@ app.set('view engine', 'ejs')
 
 
 app.get('/', async(req, res) =>{ 
-    await database.connect();
+    try {
+        await database.connect();
+    } catch (error) {
+        console.log(error);
+    }
     res.render('login',{message : ""}) 
 }) 
 app.get('/registration', function(req, res){ 
@@ -93,7 +97,12 @@ app.post('/register', async(req, res) =>{
             return;
         }
     }
-    await database.db("Users").collection("Users").insertOne(user)
+    try{
+        await database.db("Users").collection("Users").insertOne(user)
+    }
+    catch(error){
+        console.log(error)
+    }
     res.render('login',{message : "You have registered successfully"})
     
 })
