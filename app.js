@@ -7,7 +7,6 @@ const uri = 'mongodb+srv://amrhoballah:tesco2012@project.uutww.mongodb.net/proje
 const database = new MongoClient(uri)
 const app = express() 
 var currentUser
-await database.connect()
 app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
@@ -19,8 +18,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs') 
 
 
-app.get('/', function(req, res){ 
-
+app.get('/', async(req, res) =>{ 
+    await database.connect();
     res.render('login',{message : ""}) 
 }) 
 app.get('/registration', function(req, res){ 
@@ -81,7 +80,7 @@ app.get('/sun', function(req, res){
     res.render('sun') 
 })
 
-app.post('/register', function(req, res){
+app.post('/register', async(req, res) =>{
     var user = {username: req.body.username, password: req.body.password, readinglist: []}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
