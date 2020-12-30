@@ -2,6 +2,8 @@ const express = require('express')
 const path = require('path') 
 const fs = require('fs')
 const { findSourceMap } = require('module')
+const session = require('express-session')
+const { request } = require('express')
 const app = express() 
 var currentUser
 
@@ -62,7 +64,7 @@ app.get('/readlist', function(req, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     var list
     for( i in data){
-        if (currentUser == data[i].username)
+        if (req.session.name == data[i].username)
             list = data[i].readinglist
     }
     res.render('readlist',{data: list }) 
@@ -76,7 +78,7 @@ app.get('/sun', function(req, res){
     res.render('sun') 
 })
 
-app.post('/register', function(request, res){
+app.post('/register', function(req, res){
     var user = {username: request.body.username, password: request.body.password, readinglist: []}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
@@ -94,25 +96,25 @@ app.post('/register', function(request, res){
     res.render('login',{message : "You have registered successfully"})
     
 })
-app.post('/login',function(request, res){
-    var user = {username: request.body.username, password: request.body.password}
+app.post('/login',function(req, res){
+    var user = {username: req.body.username, password: req.body.password}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
         if (user.username == data[i].username && user.password == data[i].password){
-            currentUser = user.username
+            req.session.name = user.username
             res.render('home')
             return
         }
     }
     res.render('login',{message : "The username or password are incorrect"})
 })
-app.post('/addtoreadinglist',function(request, res){
+app.post('/addtoreadinglist',function(req, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
-        if (currentUser == data[i].username){
+        if (req.session.name == data[i].username){
             for(j in data[i].readinglist)
-                if(data[i].readinglist[j].path == request.body.path){
-                    res.render(request.body.path)
+                if(data[i].readinglist[j].path == req.body.path){
+                    res.render(req.body.path)
                     return
                 }
             data[i].readinglist.push({path:request.body.path,name: request.body.name})
