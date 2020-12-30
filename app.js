@@ -137,7 +137,7 @@ app.post('/search',function(req, res){
 })
 
 
-//const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5001;
 
-app.listen(8080, () => console.log(`Server is listening on port ${8080}...`));
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
 
