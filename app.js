@@ -1,11 +1,13 @@
 const express = require('express') 
 const path = require('path') 
 const fs = require('fs')
-const { findSourceMap } = require('module')
 const session = require('express-session')
+const {MongoClient} = require('mongodb');
+const uri = 'mongodb+srv://amrhoballah:tesco2012@project.uutww.mongodb.net/project?retryWrites=true&w=majority'
+const database = new MongoClient(uri)
 const app = express() 
 var currentUser
-
+await database.connect()
 app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
@@ -92,8 +94,7 @@ app.post('/register', function(req, res){
             return;
         }
     }
-    data.push(user)
-    fs.writeFileSync('users.json', JSON.stringify(data,null,2))
+    await database.db("Users").collection("Users").insertOne(user)
     res.render('login',{message : "You have registered successfully"})
     
 })
