@@ -1,1 +1,17 @@
-[{"username":"amr","password":"abc","readinglist":[{"path":"mockingbird","name":"To Kill a Mockingbird"}]},{"username":"fas","password":"abc","readinglist":[]}]
+[
+  {
+    "username": "amr",
+    "password": "abc",
+    "readinglist": []
+  },
+  {
+    "username": "seif",
+    "password": "abc",
+    "readinglist": []
+  },
+  {
+    "username": "youssef",
+    "password": "abc",
+    "readinglist": []
+  }
+]
