@@ -66,14 +66,15 @@ app.get('/poetry', function(req, res){
 
     res.render('poetry') 
 }) 
-app.get('/readlist', function(req, res){ 
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    var list
-    for( i in data){
-        if (req.session.name == data[i].username)
-            list = data[i].readinglist
+app.get('/readlist', async(req, res) =>{ 
+    var data
+    try{
+        data = await database.db("Users").collection("Users").findOne({username: req.session.name})
     }
-    res.render('readlist',{data: list }) 
+    catch(error){
+        console.log(error)
+    }
+    res.render('readlist',{data: data.readinglist }) 
 }) 
 app.get('/searchresults', function(req, res){ 
 
@@ -86,17 +87,22 @@ app.get('/sun', function(req, res){
 
 app.post('/register', async(req, res) =>{
     var user = {username: req.body.username, password: req.body.password, readinglist: []}
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
-        if (user.username == data[i].username){
-            res.render('registration',{message : "This username is already taken"})
-            return;
-        }
-        if (user.username == "" || user.password == ""){
-            res.render('registration',{message : "Please enter a username and a password"})
-            return;
-        }
+    var result
+    try{
+        result = await database.db("Users").collection("Users").findOne({username: user.username})
     }
+    catch(error){
+        console.log(error)
+    }
+    if (result){
+        res.render('registration',{message : "This username is already taken"})
+        return;
+    }
+    if (user.username == "" || user.password == ""){
+        res.render('registration',{message : "Please enter a username and a password"})
+        return;
+    }
+
     try{
         await database.db("Users").collection("Users").insertOne(user)
     }
@@ -106,31 +112,43 @@ app.post('/register', async(req, res) =>{
     res.render('login',{message : "You have registered successfully"})
     
 })
-app.post('/login',function(req, res){
+app.post('/login',async (req, res) =>{
     var user = {username: req.body.username, password: req.body.password}
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
-        if (user.username == data[i].username && user.password == data[i].password){
-            req.session.name = user.username
-            res.render('home')
-            return
-        }
+    var result
+    try{
+        result = await database.db("Users").collection("Users").findOne({username : user.username, password: user.password})
+    }
+    catch(error){
+        console.log(error)
+    }
+    if (result){
+        req.session.name = user.username
+        res.render('home')
+        return
     }
     res.render('login',{message : "The username or password are incorrect"})
 })
-app.post('/addtoreadinglist',function(req, res){
-    var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
-        if (req.session.name == data[i].username){
-            for(j in data[i].readinglist)
-                if(data[i].readinglist[j].path == req.body.path){
-                    res.render(req.body.path)
-                    return
-                }
-            data[i].readinglist.push({path:req.body.path,name: req.body.name})
+app.post('/addtoreadinglist',async(req, res)=>{
+    var data
+    try{
+        data = await database.db("Users").collection("Users").findOne({username: req.session.name})
+    }
+    catch(error){
+        console.log(error)
+    }
+    for(i in data.readinglist){
+        if(data.readinglist[i].path == req.body.path){
+            res.render(req.body.path)
+            return
         }
     }
-    fs.writeFileSync('users.json', JSON.stringify(data))
+    data.readinglist.push({path:req.body.path,name: req.body.name})
+    try{
+        await database.db("Users").collection("Users").updateOne({ username: req.session.name }, {$set: {readinglist: data.readinglist} })
+    }
+    catch(error){
+        console.log(error)
+    }
     res.render(req.body.path)
 })
 app.post('/search',function(req, res){
