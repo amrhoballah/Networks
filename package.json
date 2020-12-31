@@ -2,24 +2,17 @@
   "name": "Networks",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "heroku"
-  ],
-  "author": "Amr Hoballah",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "alert": "^5.0.5",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "module": "^1.2.5",
-    "mongodb": "^3.6.3"
-  },
-  "engine": {
-    "node": "14.15.0"
+    "module": "^1.2.5"
   }
 }
