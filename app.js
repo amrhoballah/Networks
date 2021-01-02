@@ -9,7 +9,9 @@ var currentUser
 app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
-app.use(session());
+app.use(session({
+    secret : "shhhhhhh"
+}));
   
 app.set('views', path.join(__dirname, 'views')) 
 app.set('view engine', 'ejs') 
