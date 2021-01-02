@@ -26,7 +26,7 @@ app.post('/addtoreadinglist',function(request, res){
         }
     }
     fs.writeFileSync('users.json', JSON.stringify(data))
-    res.render('readlist', {data:[]})
+    res.redirect('/readlist')
 })
 app.get('/', function(req, res){ 
 
@@ -108,13 +108,13 @@ app.post('/register', function(request, res){
     res.render('login',{message : "You have registered successfully"})
     
 })
-var loggedin
+
 app.post('/login',function(request, res){
     var user = {username: request.body.username, password: request.body.password}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for( i in data){
         if (user.username == data[i].username && user.password == data[i].password){
-            loggedin = user.username
+            currentUser = user.username
             res.render('home')
             return
         }
