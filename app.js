@@ -19,13 +19,13 @@ app.post('/addtoreadinglist',function(request, res){
         if (currentUser == data[i].username){
             for(let j in data[i].readinglist)
                 if(data[i].readinglist[j].path == request.body.path){
-                    res.render(request.body.path)
+                    res.render(request.body.path,{message : "This book has already been added!"})
                     return
                 }
             data[i].readinglist.push({path:request.body.path,name: request.body.name})
         }
     }
-    fs.writeFileSync('users.json', JSON.stringify(data))
+    fs.writeFileSync('users.json', JSON.stringify(data),null,2)
     res.redirect('/readlist')
 })
 app.get('/', function(req, res){ 
@@ -38,7 +38,7 @@ app.get('/registration', function(req, res){
 })
 app.get('/dune', function(req, res){ 
 
-    res.render('dune') 
+    res.render('dune',{message : ""}) 
 }) 
 app.get('/fiction', function(req, res){ 
 
@@ -46,11 +46,11 @@ app.get('/fiction', function(req, res){
 })
 app.get('/flies', function(req, res){
 
-    res.render('flies') 
+    res.render('flies',{message : ""}) 
 }) 
 app.get('/grapes', function(req, res){ 
 
-    res.render('grapes') 
+    res.render('grapes',{message : ""}) 
 }) 
 app.get('/home', function(req, res){ 
 
@@ -58,11 +58,11 @@ app.get('/home', function(req, res){
 }) 
 app.get('/leaves', function(req, res){ 
 
-    res.render('leaves') 
+    res.render('leaves',{message : ""}) 
 }) 
 app.get('/mockingbird', function(req, res){ 
 
-    res.render('mockingbird') 
+    res.render('mockingbird',{message : ""}) 
 }) 
 app.get('/novel', function(req, res){ 
 
@@ -87,7 +87,7 @@ app.get('/searchresults', function(req, res){
 }) 
 app.get('/sun', function(req, res){ 
 
-    res.render('sun') 
+    res.render('sun',{message : ""}) 
 })
 
 app.post('/register', function(request, res){
@@ -112,14 +112,26 @@ app.post('/register', function(request, res){
 app.post('/login',function(request, res){
     var user = {username: request.body.username, password: request.body.password}
     var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
+    for(let i in data){
         if (user.username == data[i].username && user.password == data[i].password){
             currentUser = user.username
-            res.render('home')
+            res.redirect('home')
             return
         }
     }
     res.render('login',{message : "The username or password are incorrect"})
+})
+
+app.post('/search', function(req ,res){
+    var x = (req.body.Search).toLocaleLowerCase()
+    var list = [{"path":"flies","name":"Lord of the Flies"},{"path":"grapes","name":"The Grapes of Wrath"},{"path":"leaves","name":"Leaves of Grass"},{"path":"sun","name":"The Sun and Her Flowers"},{"path":"dune","name":"Dune"},{"path":"mockingbird","name":"To Kill a Mockingbird"}]
+    var data = []
+    for(let i in list){
+        if (list[i].name.toLocaleLowerCase().includes(x)){
+            data.push(list[i])
+        }
+    }
+    res.render('searchresults',{data : data})
 })
 
 app.listen(8080, function(error){
