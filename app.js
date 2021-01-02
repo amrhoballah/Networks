@@ -14,16 +14,16 @@ app.use(express.json());
 app.set('views', path.join(__dirname, 'views')) 
 app.set('view engine', 'ejs') 
 
-app.post('/addtoreadinglist',function(request, res){
+app.post('/addtoreadinglist',function(req, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for(let i in data){
         if (req.session.name == data[i].username){
             for(let j in data[i].readinglist)
-                if(data[i].readinglist[j].path == request.body.path){
-                    res.render(request.body.path,{message : "This book has already been added!"})
+                if(data[i].readinglist[j].path == req.body.path){
+                    res.render(req.body.path,{message : "This book has already been added!"})
                     return
                 }
-            data[i].readinglist.push({path:request.body.path,name: request.body.name})
+            data[i].readinglist.push({path:req.body.path,name: req.body.name})
         }
     }
     fs.writeFileSync('users.json', JSON.stringify(data),null,2)
@@ -91,8 +91,8 @@ app.get('/sun', function(req, res){
     res.render('sun',{message : ""}) 
 })
 
-app.post('/register', function(request, res){
-    var user = {username: request.body.username, password: request.body.password, readinglist: []}
+app.post('/register', function(req, res){
+    var user = {username: req.body.username, password: req.body.password, readinglist: []}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for(let i in data){
         if (user.username == data[i].username){
@@ -110,8 +110,8 @@ app.post('/register', function(request, res){
     
 })
 
-app.post('/login',function(request, res){
-    var user = {username: request.body.username, password: request.body.password}
+app.post('/login',function(req, res){
+    var user = {username: req.body.username, password: req.body.password}
     var data = JSON.parse(fs.readFileSync("users.json"))
     for(let i in data){
         if (user.username == data[i].username && user.password == data[i].password){
