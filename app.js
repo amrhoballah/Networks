@@ -15,9 +15,9 @@ app.set('view engine', 'ejs')
 
 app.post('/addtoreadinglist',function(request, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
+    for(let i in data){
         if (currentUser == data[i].username){
-            for(j in data[i].readinglist)
+            for(let j in data[i].readinglist)
                 if(data[i].readinglist[j].path == request.body.path){
                     res.render(request.body.path)
                     return
@@ -75,7 +75,7 @@ app.get('/poetry', function(req, res){
 app.get('/readlist', function(req, res){ 
     var data = JSON.parse(fs.readFileSync("users.json"))
     var list
-    for( i in data){
+    for(let i in data){
         if (currentUser == data[i].username)
             list = data[i].readinglist
     }
@@ -93,7 +93,7 @@ app.get('/sun', function(req, res){
 app.post('/register', function(request, res){
     var user = {username: request.body.username, password: request.body.password, readinglist: []}
     var data = JSON.parse(fs.readFileSync("users.json"))
-    for( i in data){
+    for(let i in data){
         if (user.username == data[i].username){
             res.render('registration',{message : "This username is already taken"})
             return;
