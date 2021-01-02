@@ -133,8 +133,8 @@ app.post('/search', function(req ,res){
     }
     res.render('searchresults',{data : data})
 })
-
-app.listen(8080, function(error){
+const port = process.env.PORT || 8080
+app.listen(port, function(error){
     if(error) throw error 
     console.log("localhost:8080 is waiting for you") 
 }) 
