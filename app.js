@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path') 
 const fs = require('fs')
 const { findSourceMap } = require('module')
+const session = require('express-session')
 const app = express() 
 var currentUser
 
@@ -16,7 +17,7 @@ app.set('view engine', 'ejs')
 app.post('/addtoreadinglist',function(request, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for(let i in data){
-        if (currentUser == data[i].username){
+        if (req.session.name == data[i].username){
             for(let j in data[i].readinglist)
                 if(data[i].readinglist[j].path == request.body.path){
                     res.render(request.body.path,{message : "This book has already been added!"})
@@ -76,7 +77,7 @@ app.get('/readlist', function(req, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     var list
     for(let i in data){
-        if (currentUser == data[i].username)
+        if (req.session.name == data[i].username)
             list = data[i].readinglist
     }
     res.render('readlist',{data: list }) 
@@ -114,7 +115,7 @@ app.post('/login',function(request, res){
     var data = JSON.parse(fs.readFileSync("users.json"))
     for(let i in data){
         if (user.username == data[i].username && user.password == data[i].password){
-            currentUser = user.username
+            req.session.name = user.username
             res.redirect('home')
             return
         }
