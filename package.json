@@ -2,12 +2,12 @@
   "name": "Networks",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app"
   },
   "keywords": [],
-  "author": "",
+  "author": "Team98",
   "license": "ISC",
   "dependencies": {
     "alert": "^5.0.5",
