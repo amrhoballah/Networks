@@ -1,17 +1,1 @@
-[
-  {
-    "username": "amr",
-    "password": "abc",
-    "readinglist": []
-  },
-  {
-    "username": "seif",
-    "password": "abc",
-    "readinglist": []
-  },
-  {
-    "username": "youssef",
-    "password": "abc",
-    "readinglist": []
-  }
-]
+[{"username":"amr","password":"abc","readinglist":[]},{"username":"seif","password":"abc","readinglist":[]},{"username":"youssef","password":"abc","readinglist":[]}]

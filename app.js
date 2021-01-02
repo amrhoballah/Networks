@@ -26,7 +26,7 @@ app.post('/addtoreadinglist',function(request, res){
         }
     }
     fs.writeFileSync('users.json', JSON.stringify(data))
-    res.render(request.body.path)
+    res.render('readlist', {data:[]})
 })
 app.get('/', function(req, res){ 
 
