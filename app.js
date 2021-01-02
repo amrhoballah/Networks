@@ -10,12 +10,7 @@ app.use(express.urlencoded());
 app.use(express.static('public'))
 app.use(express.json());
 app.use(session({
-    secret : "shhhhhhh",
-    resave : true,
-    saveUninitialized: true,
-    cookie :{
-        secure: true
-    }
+    secret : "shhhhhhh"
 }));
   
 app.set('views', path.join(__dirname, 'views')) 
