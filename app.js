@@ -112,7 +112,7 @@ app.post('/register', function(req, res){
         }
     }
     data.push(user)
-    fs.writeFileSync('users.json', JSON.stringify(data,null,2))
+    fs.writeFileSync('users.json', JSON.stringify(data),null,2)
     res.render('login',{message : "You have registered successfully"})
     
 })
