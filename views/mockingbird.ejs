@@ -6,6 +6,7 @@
             background-image: url("background3.jpg");
             background-repeat: no-repeat;
             background-size: 100%;
+            color: white;
         }
         h1 {
             color: white;
@@ -64,19 +65,16 @@
             <ul class="navbar-nav mr-auto">
             </ul>
             <form method="POST" action='/search' class="form-inline my-2 my-lg-0">
-                <ul class="nav">
-                    <li class="nav-item">
-                      <a class="nav-link active" style="color: rgb(191, 255, 161)" aria-current="page" href="/home">Home</a>
-                    </li>
-                  </ul>
                 <input class="form-control mr-sm-2" name="Search" type="search" placeholder="Search"
                     aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-        </div>
+            <h1> </h1>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick='location.href = "/home" ;'>Home</button>        </div>
     </nav>
     <div class="container1">
         <img id="image" src="/mockingbird.jpg" width="193" height="300">
+        <br><%= message %><br><br>
     </div>
     <div class="container2">
             The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it, To Kill A Mockingbird became both an instant bestseller and a critical success when it was first published in 1960. It went on to win the Pulitzer Prize in 1961 and was later made into an Academy Award-winning film, also a classic.
@@ -85,7 +83,6 @@
         <form method="POST" action="/addtoreadinglist">
             <input type="hidden" name="path" value="mockingbird" />
             <input type="hidden" name="name" value="To Kill a Mockingbird" />
-            <br><h1><%= message %></h1><br>
             <button id="readlist" class="btn btn-secondary ml-3">Add to Want to Read List</button>
         </form>
     </div>
