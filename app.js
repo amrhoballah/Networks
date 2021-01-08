@@ -70,7 +70,7 @@ app.get('/poetry', function(req, res){
     res.render('poetry') 
 }) 
 app.get('/readlist', async(req, res) =>{ 
-    var data
+    let data
     try{
         data = await database.db("Users").collection("Users").findOne({username: req.session.name})
     }
@@ -89,8 +89,8 @@ app.get('/sun', function(req, res){
 })
 
 app.post('/register', async(req, res) =>{
-    var user = {username: req.body.username, password: req.body.password, readinglist: []}
-    var result
+    let user = {username: req.body.username, password: req.body.password, readinglist: []}
+    let result
     try{
         result = await database.db("Users").collection("Users").findOne({username: user.username})
     }
@@ -119,8 +119,8 @@ app.post('/register', async(req, res) =>{
     
 })
 app.post('/login',async (req, res) =>{
-    var user = {username: req.body.username, password: req.body.password}
-    var result
+    let user = {username: req.body.username, password: req.body.password}
+    let result
     try{
         result = await database.db("Users").collection("Users").findOne({username : user.username, password: user.password})
     }
@@ -163,8 +163,8 @@ app.post('/addtoreadinglist',async(req, res)=>{
 })
 app.post('/search',function(req, res){
     let keyword = (req.body.Search).toLocaleLowerCase()
-    var list =[]
-    var data = [{"path":"flies","name":"Lord of the Flies"},{"path":"grapes","name":"The Grapes of Wrath"},{"path":"leaves","name":"Leaves of Grass"},{"path":"sun","name":"The Sun and Her Flowers"},{"path":"dune","name":"Dune"},{"path":"mockingbird","name":"To Kill a Mockingbird"}]
+    let list =[]
+    let data = [{"path":"flies","name":"Lord of the Flies"},{"path":"grapes","name":"The Grapes of Wrath"},{"path":"leaves","name":"Leaves of Grass"},{"path":"sun","name":"The Sun and Her Flowers"},{"path":"dune","name":"Dune"},{"path":"mockingbird","name":"To Kill a Mockingbird"}]
     for(let book of data){
         if(book.name.toLocaleLowerCase().includes(keyword)){
             list.push(book)
