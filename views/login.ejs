@@ -34,12 +34,11 @@
     <div class="cont">
         <form method="POST" action="/login">
             Username:<br>
-            <input type="text" name="username">
+            <input type="text" name="username" required minlength="3">
             <br>
             Password:<br>
-            <input type="password" name="password">
-            <br>
-            <%= message %><br>
+            <input type="password" name="password" required minlength="8">
+            <br> <br>
             <input type="submit" value="Login">
         </form>
         <br>
