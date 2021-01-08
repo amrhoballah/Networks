@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <style>
         body {
@@ -13,22 +14,26 @@
             text-align: center;
             -webkit-text-stroke: 1px blue;
         }
+
         .container1 {
             position: relative;
             left: 70px;
             top: 100px;
             color: white;
         }
+
         #label1 {
             position: relative;
             text-align: center;
             color: white;
         }
+
         #view {
             position: relative;
             left: 50px;
         }
-        table{
+
+        table {
             border-spacing: 30px;
         }
     </style>
@@ -39,6 +44,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
         <a class="navbar-brand" style="color: rgb(191, 255, 161)">Search Results</a>
@@ -55,30 +61,33 @@
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <h1> </h1>
-            <button class="btn btn-outline-success my-2 my-sm-0" onclick='location.href = "/home" ;'>Home</button>       
-         </div>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick='location.href = "/home" ;'>Home</button>
+        </div>
     </nav>
     <table>
+        <th id="Results"></th>
         <% 
         if(data.length != 0){
             for(i in data) {
                 let imagesrc = "/" + data[i].path + ".jpg" 
                 var loadpage = '/' + data[i].path %>
-                <td class="container1">
-                    <img id="image" src= <%= imagesrc %> width="193" height="300">
-                    <br>
-                    <label id="label1" class="ml-4 my-2"><%= data[i].name %></label>
-                    <br>
-                    <button onclick='location.href = "<%= loadpage %>" ;' id="view" class="btn btn-secondary ml-3"> View </button>
-                    <br>
-                    <br>
-                </td>
+        <td class="container1">
+            <img id="image" src=<%= imagesrc %> alt="Unavailable Book Image" width="193" height="300">
+            <br>
+            <label id="label1" class="ml-4 my-2"><%= data[i].name %></label>
+            <br>
+            <button onclick='location.href = "<%= loadpage %>" ;' id="view" class="btn btn-secondary ml-3"> View
+            </button>
+            <br>
+            <br>
+        </td>
         <% }}
         else{ %>
-                <td class="conatiner1">
-                    <label id="label1" class="ml-4 my-2">No books were found!</label>
-                </td>
+        <td class="container1">
+            <label id="label1" class="ml-4 my-2">No books were found!</label>
+        </td>
         <% } %>
     </table>
 </body>
+
 </html>
