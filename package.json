@@ -16,6 +16,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "harlem-shake": "^1.0.3",
     "module": "^1.2.5",
     "mongodb": "^3.6.3"
   },
