@@ -75,6 +75,7 @@
             </form>
             
             <button class="btn btn-outline-success my-2 my-sm-0" onclick="return harlem();">Harlem</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="return tdfw();">TD4W</button>
             
         </div>
     </nav>
@@ -109,6 +110,10 @@
     </div>
 </body>
 <script>
+    function tdfw(){
+        var timeout = setTimeout("location.reload(true);",40000);
+        (function(){var s=document.createElement('script');s.setAttribute('src','https://amrhoballah.github.io/turndownforwhatjs/tdfw.js');document.body.appendChild(s);})();
+    }
     function harlem() {
     function c() {
         var e = document.createElement("link");
